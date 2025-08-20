@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Dobby Rizz App</title>
+        <title>🔥Dobby Rizz App</title>
         <meta name="description" content="Your AI-powered wingman to get the girl of your dreams" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
