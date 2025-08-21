@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>🔥Dobby Rizz App</title>
+        <title>Dobby Rizz App</title>
         <meta name="description" content="Your AI-powered wingman to get the girl of your dreams" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -129,15 +129,26 @@ export default function Home() {
               <p className="text-sm">
                 Using{' '}
                 <a 
-                  href="https://app.fireworks.ai/models/sentientfoundation-serverless/dobby-mini-unhinged-plus-llama-3-1-8b"
+                  href="https://chat.sentient.xyz"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white hover:text-purple-300 transition-colors underline"
                 >
-                  Dobby Mini Unhinged Plus Llama 3.1 8B
+                  Sentient Chat
                 </a>
               </p>
-              <p className="text-xs text-gray-400">© 2025</p>
+              <p className="text-xs text-gray-400">
+                ©{' '}
+                <a 
+                  href="https://x.com/DobbyRizzAI" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-purple-300 transition-colors underline"
+                >
+                  Dobby Rizz AI
+                </a>{' '}
+                2025
+              </p>
             </div>
           </footer>
         </div>
