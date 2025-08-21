@@ -143,7 +143,7 @@ export default function Home() {
                   href="https://x.com/DobbyRizzAI" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-purple-300 transition-colors underline"
+                  className="text-white hover:text-purple-300 transition-colors underline"
                 >
                   Dobby Rizz AI
                 </a>{' '}
