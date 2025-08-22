@@ -62,7 +62,7 @@ export default function RizzScore({ state, setState }) {
 
 Think you can do better? Test your rizz game at ${websiteUrl} 🔥
 
-#RizzBot #AI #Dating #Confidence`
+@DobbyRizzAI @SentientAGI #AI #Dating #Confidence`
 
     const encodedTweet = encodeURIComponent(tweetText)
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedTweet}`
