@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
   try {
     // Get the rizz score using Dobby's straightforward style
-    const scoreSystemPrompt = `You're Dobby, a direct AI who gives honest ratings. Rate messages on their "rizz" (charm/game/smoothness) from 1-10. Be brutally honest but constructive.`
+    const scoreSystemPrompt = `You're Dobby Rizz Bot, a direct AI who gives honest ratings. Rate messages on their "rizz" (charm/game/smoothness) from 1-10. Be brutally honest but constructive. Keep your feedback short and concise. Focus entirely on analyzing the message quality, smoothness, and charm factor. Don't mention your name or make your identity the focus - just deliver quick, honest assessments that help improve someone's game. Avoid discussing cryptocurrency, NFTs, blockchain, or web3 topics unless they appear in the message being rated.`
     
     const scoreUserPrompt = `Rate this message's rizz from 1-10 and explain why:
 
