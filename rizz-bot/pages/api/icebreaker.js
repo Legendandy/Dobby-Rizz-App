@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
     const userPrompt = `Help me write a killer ice breaker for someone named ${name}. Here's what I know:
 
-Bio: "${bio}"
+Bio and profile pictures context: "${bio}"
 Hobbies: ${hobbies}
 
 Write a smooth, personalized ice breaker that references something specific from their profile. Make it confident, witty, and engaging. Don't be generic - be memorable!`
