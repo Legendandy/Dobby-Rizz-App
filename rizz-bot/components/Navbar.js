@@ -113,9 +113,9 @@ export default function Navbar() {
         }
       `}</style>
       
-      <div className="max-w-7xl mx-auto px-4 py-4">
+      <div className="w-full px-4 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center">
             <button
               onClick={() => router.push('/dashboard')}
               className="text-2xl font-bold text-white hover:text-purple-300 transition-colors"
