@@ -5,52 +5,61 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' })
   }
 
-  const { message, mode, context = [] } = req.body
-
-  if (!message || !mode) {
-    return res.status(400).json({ message: 'Missing required fields' })
-  }
-
   try {
-    let systemPrompt = ''
-    let userPrompt = ''
-    
-    // Build context string if provided
+    const { message, mode = 'witty', context = [] } = req.body
+
+    if (!message) {
+      return res.status(400).json({ message: 'Message is required' })
+    }
+
+    console.log('🔥 API: Generating rizz reply for mode:', mode)
+
+    const modePrompts = {
+      witty: "Be clever, sharp, and playfully intelligent. Use wordplay and smart humor.",
+      flirty: "Be charming, confident, naughty and romantically engaging without being inappropriate.",
+      sweet: "Be genuine, sweet, warm, and endearing. Show sincere interest.",
+      funny: "Be humorous, funny and entertaining. Make them laugh with good jokes or observations.",
+      confident: "Be bold, assertive but not disrespectful, self-assured, and magnetic. Show strong personality."
+    }
+
+    const systemPrompt = `You are a dating AI wingman specializing in creating personalized, charming replies to dating app messages that are engaging, authentic, and get responses. Do NOT include your name ("Dobby") or refer to yourself in the message. Do NOT use quotation marks under any circumstances, including around phrases from the message or context.
+
+Your specialty: Creating ${mode} responses that feel natural and increase attraction.
+
+Style Guide for ${mode} responses: ${modePrompts[mode]}
+
+Rules:
+- Choose a concise, context-appropriate length for the response, typically 10–40 words, based on the provided message and context
+- Never be inappropriate or crude
+- Match their energy level
+- Show genuine interest
+- Create intrigue and continue the conversation
+- Be authentic, not generic
+- Avoid interview-style questions`
+
     let contextString = ''
-    if (context.length > 0) {
-      contextString = '\n\nPrevious conversation:\n'
-      context.forEach((msg, index) => {
-        contextString += `${msg.sender === 'them' ? 'Them' : 'You'}: "${msg.text}"\n`
+    if (context && context.length > 0) {
+      contextString = '\n\nConversation Context:\n'
+      context.forEach(msg => {
+        contextString += `${msg.sender}: ${msg.text}\n`
       })
-      contextString += '\n'
     }
 
-    switch (mode) {
-      case 'witty':
-        systemPrompt = `You're a witty and sarcastic conversationalist with strong opinions. Reply with clever wit and playful sarcasm, but keep it smooth and charming. Be memorable and engaging without being mean or offensive. Keep your responses clean and avoid unnecessary profanity or crude language. Focus on clever wordplay and sharp humor rather than shock value. Make your sarcasm playful and charming, not harsh or hurtful. Avoid discussing cryptocurrency, NFTs, blockchain, or web3 topics unless they are specifically mentioned in the conversation context. Show your personality!${contextString ? ' Consider the conversation context when crafting your response.' : ''}`
-        userPrompt = `${contextString}Someone just sent me this message: "${message}" Give me a witty, sarcastic reply that's clever and smooth. Make them laugh and want to keep talking.${contextString ? ' Take into account the previous conversation flow.' : ''}`
-        break
-        
-      case 'flirty':
-        systemPrompt = `You're a confident and charming conversationalist. Reply in a flirty, playful way that's bold but respectful. Be smooth, confident, and subtly suggestive without being crude or inappropriate. Use clever innuendo and playful teasing rather than explicit language or unnecessary profanity. Keep it classy while being naughty - focus on charm and wit to create tension and interest. Make your responses memorable and engaging without crossing into offensive territory. Avoid discussing cryptocurrency, NFTs, blockchain, or web3 topics unless they are specifically mentioned in the conversation context.${contextString ? ' Consider the conversation context when crafting your response.' : ''}`
-        userPrompt = `${contextString}Someone just sent me this message: "${message}" Give me a flirty, playful reply that's confident and smooth. Make them smile and want to keep the conversation going.${contextString ? ' Take into account the previous conversation flow.' : ''}`
-        break
-        
-      case 'charming':
-        systemPrompt = `You're acting as me, a sophisticated and charming human. Reply with class, charm, and genuine interest. Be smooth, thoughtful, and make them feel special.${contextString ? ' Consider the conversation context when crafting your response.' : ''}`
-        userPrompt = `${contextString}Someone just sent me this message: "${message}" Give me a charming, sophisticated reply that shows genuine interest and makes them feel special.${contextString ? ' Take into account the previous conversation flow.' : ''}`
-        break
-        
-      default:
-        systemPrompt = `You're acting as me, a smooth-talking human with personality. Reply in a charming, engaging way.${contextString ? ' Consider the conversation context when crafting your response.' : ''}`
-        userPrompt = `${contextString}Reply to this message: "${message}"${contextString ? ' Take into account the previous conversation flow.' : ''}`
-    }
+    const userPrompt = `Reply to this message in a ${mode} way:
+${message}${contextString}
 
-    const reply = await generateDobbyText(systemPrompt, userPrompt, 90)
+Create a response that continues the conversation naturally and increases their interest in you.`
+
+    const reply = await generateDobbyText(systemPrompt, userPrompt)
     
+    console.log('✅ API: Generated reply:', reply)
+
     res.status(200).json({ reply })
   } catch (error) {
-    console.error('Reply generation error:', error)
-    res.status(500).json({ message: 'Failed to generate reply' })
+    console.error('❌ API: Error in rizz reply generation:', error)
+    res.status(500).json({ 
+      message: 'Failed to generate reply',
+      error: error.message 
+    })
   }
 }

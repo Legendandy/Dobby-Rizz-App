@@ -5,48 +5,68 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' })
   }
 
-  const { message } = req.body
-
-  if (!message) {
-    return res.status(400).json({ message: 'Message is required' })
-  }
-
   try {
-    // Get the rizz score using Dobby's straightforward style
-    const scoreSystemPrompt = `You're Dobby Rizz Bot, a direct AI who gives honest ratings. Rate messages on their "rizz" (charm/game/smoothness) from 1-10. Be brutally honest but constructive. Keep your feedback short and concise. Focus entirely on analyzing the message quality, smoothness, and charm factor. Don't mention your name or make your identity the focus - just deliver quick, honest assessments that help improve someone's game. Avoid discussing cryptocurrency, NFTs, blockchain, or web3 topics unless they appear in the message being rated.`
-    
-    const scoreUserPrompt = `Rate this message's rizz from 1-10 and explain why:
+    const { message } = req.body
+
+    if (!message) {
+      return res.status(400).json({ message: 'Message is required' })
+    }
+
+    console.log('🔥 API: Analyzing rizz score for message:', message.substring(0, 50))
+
+    const systemPrompt = `You are Dobby, an expert dating coach AI who analyzes dating app messages. Rate messages on a scale of 1-100 and provide constructive feedback.
+
+Scoring Criteria:
+- Engagement level (does it invite a response?)
+- Authenticity (does it feel genuine?)
+- Interest factor (is it intriguing?)
+- Confidence level (shows self-assurance without arrogance?)
+- Personalization (references their profile/interests?)
+- Conversation flow (moves the chat forward?)
+
+Response format:
+Score: [number 1-100]
+Feedback: [2-3 sentences explaining the score]
+Suggestions: [3 specific improvement tips, separated by semicolons]
+
+Be honest but constructive. Help them improve their game.`
+
+    const userPrompt = `Rate this dating app message and provide feedback:
 
 "${message}"
 
-Give me just the number first (like "7/10") then a short explanation of what worked and what didn't. Be direct and helpful.`
-    
-    const scoreResult = await generateDobbyText(scoreSystemPrompt, scoreUserPrompt, 60)
-    
-    // Extract score from Dobby's response
-    const scoreMatch = scoreResult.match(/(\d+)(?:\/10)?/i)
-    let score = 5 // default score
-    
-    if (scoreMatch) {
-      score = parseInt(scoreMatch[1]) || 5
-      score = Math.max(1, Math.min(10, score)) // Ensure score is between 1-10
-    }
+Give me a score out of 100, honest feedback, and specific suggestions for improvement.`
 
-    // Generate detailed feedback
-    const feedbackSystemPrompt = `You're Dobby, giving direct but helpful feedback on someone's rizz game. Be honest, short, concise, constructive, and encouraging. Give specific tips for improvement.`
+    const analysis = await generateDobbyText(systemPrompt, userPrompt, 200)
     
-    const feedbackUserPrompt = `Someone got a ${score}/10 rizz score for this message: "${message}"
+    console.log('✅ API: Generated analysis:', analysis)
 
-Give them straight, helpful feedback. What worked? What didn't? How can they improve? Be encouraging but honest.`
-    
-    const feedback = await generateDobbyText(feedbackSystemPrompt, feedbackUserPrompt, 150)
-    
-    res.status(200).json({ 
-      score,
-      feedback: feedback || "Not bad, but you can definitely do better. Keep practicing your game!"
+    // Parse the response
+    const lines = analysis.split('\n').filter(line => line.trim())
+    let score = 50
+    let feedback = "Unable to analyze this message properly."
+    let suggestions = []
+
+    lines.forEach(line => {
+      if (line.toLowerCase().includes('score:')) {
+        const scoreMatch = line.match(/(\d+)/)
+        if (scoreMatch) {
+          score = Math.min(100, Math.max(1, parseInt(scoreMatch[1])))
+        }
+      } else if (line.toLowerCase().includes('feedback:')) {
+        feedback = line.replace(/feedback:\s*/i, '').trim()
+      } else if (line.toLowerCase().includes('suggestions:')) {
+        const suggestionText = line.replace(/suggestions:\s*/i, '').trim()
+        suggestions = suggestionText.split(';').map(s => s.trim()).filter(s => s)
+      }
     })
+
+    res.status(200).json({ score, feedback, suggestions })
   } catch (error) {
-    console.error('Score generation error:', error)
-    res.status(500).json({ message: 'Failed to generate score' })
+    console.error('❌ API: Error in rizz score analysis:', error)
+    res.status(500).json({ 
+      message: 'Failed to analyze message',
+      error: error.message 
+    })
   }
 }
