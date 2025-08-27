@@ -317,18 +317,22 @@ export default function Homepage() {
             </div>
           </div>
 
-          {/* Demo Video/Image Placeholder */}
+          {/* Demo Video */}
           <div className="max-w-5xl mx-auto mb-20 fade-in">
             <div className="glass-card rounded-3xl p-8 shine">
               <div className="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl flex items-center justify-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-amber-600/20"></div>
-                <div className="text-center text-white relative z-10">
-                  <div className="w-20 h-20 mx-auto mb-6 bg-blue-600 rounded-full flex items-center justify-center">
-                    <Play className="w-10 h-10 text-white" />
-                  </div>
-                  <p className="text-xl font-semibold">App Demo Video Placeholder</p>
-                  <p className="text-slate-400 mt-3">1920x1080 video demo would go here</p>
-                </div>
+                <video
+                  className="w-full h-full object-cover rounded-2xl relative z-10"
+                  src="/vid1.mp4"
+                  controls
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                >
+                  Your browser does not support the video tag.
+                </video>
               </div>
             </div>
           </div>
