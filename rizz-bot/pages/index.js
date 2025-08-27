@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react'
-import { Play, Star, ArrowRight, Zap, Heart, MessageCircle } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { Play, Star, ArrowRight, Zap, Heart, MessageCircle, Volume2, VolumeX } from 'lucide-react'
 
 export default function Homepage() {
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isMuted, setIsMuted] = useState(true) // Start muted for autoplay compatibility
+  const videoRef = useRef(null) // Reference to the video element
 
   useEffect(() => {
     setIsLoaded(true)
@@ -22,6 +24,13 @@ export default function Homepage() {
     } else {
       // Navigate to onboarding for new users
       window.location.href = '/onboarding'
+    }
+  }
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted
+      setIsMuted(videoRef.current.muted)
     }
   }
 
@@ -257,6 +266,24 @@ export default function Homepage() {
           0% { left: -100%; }
           100% { left: 100%; }
         }
+        
+        .mute-button {
+          position: absolute;
+          bottom: 16px;
+          right: 16px;
+          background: rgba(30, 41, 59, 0.7);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(148, 163, 184, 0.2);
+          border-radius: 50%;
+          padding: 8px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        
+        .mute-button:hover {
+          background: rgba(59, 130, 246, 0.7);
+          transform: scale(1.1);
+        }
       `}</style>
 
       {/* Background Pattern */}
@@ -323,16 +350,27 @@ export default function Homepage() {
               <div className="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl flex items-center justify-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-amber-600/20"></div>
                 <video
+                  ref={videoRef}
                   className="w-full h-full object-cover rounded-2xl relative z-10"
                   src="/vid1.mp4"
-                  controls
                   autoPlay
-                  muted
+                  muted={isMuted}
                   loop
                   playsInline
                 >
                   Your browser does not support the video tag.
                 </video>
+                <button
+                  onClick={toggleMute}
+                  className="mute-button z-20"
+                  aria-label={isMuted ? "Unmute video" : "Mute video"}
+                >
+                  {isMuted ? (
+                    <VolumeX className="w-6 h-6 text-white" />
+                  ) : (
+                    <Volume2 className="w-6 h-6 text-white" />
+                  )}
+                </button>
               </div>
             </div>
           </div>
