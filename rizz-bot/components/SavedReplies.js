@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Search, Copy, Trash2, MessageCircle, Clock, Filter, ArrowLeft } from 'lucide-react'
 import Navbar from './Navbar'
 import { storage } from '../utils/storage'
@@ -20,24 +20,16 @@ export default function SavedReplies() {
     setState(prevState => ({ ...prevState, ...updates }))
   }
 
-  useEffect(() => {
-    loadReplies()
-  }, [])
-
-  useEffect(() => {
-    filterReplies()
-  }, [replies, searchTerm, filter])
-
-  const loadReplies = () => {
+  const loadReplies = useCallback(() => {
     const icebreakers = storage.getContent('icebreaker')
     const rizzReplies = storage.getContent('reply')
     const allReplies = [...icebreakers, ...rizzReplies]
       .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
     
     updateState({ replies: allReplies })
-  }
+  }, [])
 
-  const filterReplies = () => {
+  const filterReplies = useCallback(() => {
     let filtered = replies
 
     if (filter !== 'all') {
@@ -51,7 +43,15 @@ export default function SavedReplies() {
     }
 
     updateState({ filteredReplies: filtered })
-  }
+  }, [replies, searchTerm, filter])
+
+  useEffect(() => {
+    loadReplies()
+  }, [loadReplies])
+
+  useEffect(() => {
+    filterReplies()
+  }, [filterReplies])
 
   const copyToClipboard = (content, id) => {
     navigator.clipboard.writeText(content)

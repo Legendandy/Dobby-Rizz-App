@@ -324,7 +324,7 @@ export default function Onboarding() {
                   
                   <div className="space-y-6 text-left">
                     <div>
-                      <label className="block text-white mb-2 font-medium text-lg">What's your name?</label>
+                      <label className="block text-white mb-2 font-medium text-lg">What&apos;s your name?</label>
                       <input
                         type="text"
                         value={profile.name}
@@ -398,7 +398,7 @@ export default function Onboarding() {
                     ))}
                   </div>
                   <div className="warning-card">
-                    Please review your selections. You won't be able to change these details after continuing.
+                    Please review your selections. You won&apos;t be able to change these details after continuing.
                   </div>
                 </div>
               )}
