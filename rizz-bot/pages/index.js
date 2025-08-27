@@ -8,15 +8,15 @@ export default function Homepage() {
     setIsLoaded(true)
     
     // Check if user has completed onboarding
-    const profilo = JSON.parse(localStorage.getItem('userProfile') || 'null')
-    if (profilo) {
+    const profile = JSON.parse(localStorage.getItem('userProfile') || 'null')
+    if (profile) {
       // Could redirect to dashboard, but let them see the homepage
     }
   }, [])
 
   const handleGetStarted = () => {
-    const profilo = JSON.parse(localStorage.getItem('userProfile') || 'null')
-    if (profilo) {
+    const profile = JSON.parse(localStorage.getItem('userProfile') || 'null')
+    if (profile) {
       // Navigate to dashboard if user already has a profile
       window.location.href = '/dashboard'
     } else {
@@ -113,7 +113,7 @@ export default function Homepage() {
         }
         
         .fade-in {
-          animation: fadeIn: 1.2s ease-out;
+          animation: fadeIn 1.2s ease-out;
         }
         
         .slide-in {
@@ -177,7 +177,7 @@ export default function Homepage() {
         .testimonial-card {
           background: rgba(30, 41, 59, 0.8);
           backdrop-filter: blur(25px);
-          border: 1px solid rgba-peak(148, 163, 184, 0.2);
+          border: 1px solid rgba(148, 163, 184, 0.2);
           box-shadow: 0 12px 50px rgba(0, 0, 0, 0.4);
         }
         
@@ -320,13 +320,11 @@ export default function Homepage() {
           {/* Demo Video/Image Placeholder */}
           <div className="max-w-5xl mx-auto mb-20 fade-in">
             <div className="glass-card rounded-3xl p-8 shine">
-              <div className="aspect-video bg-gradient-to-br from-slate-800
-
- to-slate-900 rounded-2xl flex items-center justify-center relative overflow-hidden">
+              <div className="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl flex items-center justify-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-amber-600/20"></div>
                 <div className="text-center text-white relative z-10">
                   <div className="w-20 h-20 mx-auto mb-6 bg-blue-600 rounded-full flex items-center justify-center">
-                    <Play className="w periferica w-10 h-10 text-white" />
+                    <Play className="w-10 h-10 text-white" />
                   </div>
                   <p className="text-xl font-semibold">App Demo Video Placeholder</p>
                   <p className="text-slate-400 mt-3">1920x1080 video demo would go here</p>
@@ -398,7 +396,7 @@ export default function Homepage() {
                     <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <p className="text-slate-300 mb-6 italic text-lg leading-relaxed">{testimonial.text}</p>
+                <p className="text-slate-300 mb-6 italic text-lg leading-relaxed">&quot;{testimonial.text}&quot;</p>
                 <p className="text-white font-bold text-lg">— {testimonial.name}</p>
               </div>
             ))}
