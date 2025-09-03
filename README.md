@@ -70,7 +70,7 @@ that’s the playbook.
 
 that’s how you get any girl using just one tool.
 
-👉 Website: DobbyRizzAI.xyz
+👉 Website: https://dobbyRizzAI.xyz
 
 👉 GitHub: already here
 
