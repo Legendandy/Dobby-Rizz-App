@@ -7,6 +7,7 @@ export default function Homepage() {
   const videoRef = useRef(null) // Reference to the video element
 
   useEffect(() => {
+    document.title = "Dobby Rizz App - AI Powered wingman"
     setIsLoaded(true)
     
     // Check if user has completed onboarding
