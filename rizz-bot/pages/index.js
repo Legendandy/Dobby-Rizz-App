@@ -13,7 +13,7 @@ export default function Homepage() {
 
   const handleGetStarted = () => {
     try {
-      const profile = localStorage.getItem('userProfile')
+      const profile = localStorage.getItem('rizz_profile')
       if (profile && profile !== 'null') {
         const parsedProfile = JSON.parse(profile)
         if (parsedProfile && Object.keys(parsedProfile).length > 0) {
