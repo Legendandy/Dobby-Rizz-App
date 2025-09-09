@@ -50,7 +50,7 @@ export const storage = {
     }
   },
 
-  // Save user profile
+  
   saveProfile: (profile) => {
     if (typeof window === 'undefined') return
     
@@ -61,7 +61,7 @@ export const storage = {
     }
   },
 
-  // Get user profile
+  
   getProfile: () => {
     if (typeof window === 'undefined') return null
     

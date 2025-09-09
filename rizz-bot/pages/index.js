@@ -3,29 +3,28 @@ import { Play, Star, ArrowRight, Zap, Heart, MessageCircle, Volume2, VolumeX } f
 
 export default function Homepage() {
   const [isLoaded, setIsLoaded] = useState(false)
-  const [isMuted, setIsMuted] = useState(true) // Start muted for autoplay compatibility
-  const videoRef = useRef(null) // Reference to the video element
+  const [isMuted, setIsMuted] = useState(true)
+  const videoRef = useRef(null)
 
   useEffect(() => {
     document.title = "Dobby Rizz App - AI Powered wingman"
     setIsLoaded(true)
-    
-    // Check if user has completed onboarding
-    const profile = JSON.parse(localStorage.getItem('userProfile') || 'null')
-    if (profile) {
-      // Could redirect to dashboard, but let them see the homepage
-    }
   }, [])
 
   const handleGetStarted = () => {
-    const profile = JSON.parse(localStorage.getItem('userProfile') || 'null')
-    if (profile) {
-      // Navigate to dashboard if user already has a profile
-      window.location.href = '/dashboard'
-    } else {
-      // Navigate to onboarding for new users
-      window.location.href = '/onboarding'
+    try {
+      const profile = localStorage.getItem('userProfile')
+      if (profile && profile !== 'null') {
+        const parsedProfile = JSON.parse(profile)
+        if (parsedProfile && Object.keys(parsedProfile).length > 0) {
+          window.location.href = '/dashboard'
+          return
+        }
+      }
+    } catch (error) {
+      console.error('Error checking profile:', error)
     }
+    window.location.href = '/onboarding'
   }
 
   const toggleMute = () => {
@@ -287,17 +286,14 @@ export default function Homepage() {
         }
       `}</style>
 
-      {/* Background Pattern */}
       <div className="absolute inset-0 grid-pattern opacity-20"></div>
 
-      {/* Floating Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500/10 rounded-full mix-blend-multiply filter blur-3xl floating-1"></div>
         <div className="absolute top-40 right-20 w-80 h-80 bg-amber-500/10 rounded-full mix-blend-multiply filter blur-3xl floating-2"></div>
         <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-cyan-500/10 rounded-full mix-blend-multiply filter blur-3xl floating-3"></div>
       </div>
 
-      {/* Navigation */}
       <nav className="relative z-50 glass-nav">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="text-2xl font-bold text-white">
@@ -312,7 +308,6 @@ export default function Homepage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <div className="relative z-10 hero-bg">
         <div className="max-w-7xl mx-auto px-4 py-20 text-center">
           <h1 className="text-6xl md:text-8xl font-black text-white mb-8 fade-in">
@@ -345,7 +340,6 @@ export default function Homepage() {
             </div>
           </div>
 
-          {/* Demo Video */}
           <div className="max-w-5xl mx-auto mb-20 fade-in">
             <div className="glass-card rounded-3xl p-8 shine">
               <div className="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl flex items-center justify-center relative overflow-hidden">
@@ -378,7 +372,6 @@ export default function Homepage() {
         </div>
       </div>
 
-      {/* Features Section */}
       <div className="relative z-10 py-24 bg-slate-900/50">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-5xl md:text-6xl font-bold text-white text-center mb-20">
@@ -399,7 +392,6 @@ export default function Homepage() {
         </div>
       </div>
 
-      {/* How It Works */}
       <div className="relative z-10 py-24">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-5xl md:text-6xl font-bold text-white text-center mb-20">
@@ -424,7 +416,6 @@ export default function Homepage() {
         </div>
       </div>
 
-      {/* Testimonials */}
       <div className="relative z-10 py-24 bg-slate-900/30">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-5xl md:text-6xl font-bold text-white text-center mb-20">
@@ -447,7 +438,6 @@ export default function Homepage() {
         </div>
       </div>
 
-      {/* CTA Section */}
       <div className="relative z-10 py-24">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-5xl md:text-6xl font-bold text-white mb-8">
